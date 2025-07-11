@@ -20,7 +20,11 @@ const buttons = document.querySelector('.calculator__buttons');
 
 function updateDisplay() {
   display.textContent = currentInput || '0';
-  operationDisplay.innerHTML = previousInput + '<br><a style="font-size: 20px">'+ (operator ? getOperatorSymbol(operator) : '')+'</a>';
+  operationDisplay.innerHTML =
+    previousInput +
+    '<br><a style="font-size: 20px">' +
+    (operator ? getOperatorSymbol(operator) : '') +
+    '</a>';
 }
 
 function getOperatorSymbol(op) {

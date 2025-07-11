@@ -14,7 +14,7 @@ export function subtract(a, b) {
 }
 export function multiply(a, b) {
   const result = parseFloat(a) * parseFloat(b);
-  console.log(result)
+  console.log(result);
   return formatResult(result);
 }
 export function divide(a, b) {
