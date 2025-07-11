@@ -1,6 +1,6 @@
 function formatResult(number) {
   const str = String(number);
-  if (str.length > 12) return str.slice(0, 12) + '...';
+  if (str.length > 24) return str.slice(0, 24) + '...';
   return str;
 }
 
@@ -14,6 +14,7 @@ export function subtract(a, b) {
 }
 export function multiply(a, b) {
   const result = parseFloat(a) * parseFloat(b);
+  console.log(result)
   return formatResult(result);
 }
 export function divide(a, b) {

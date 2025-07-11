@@ -12,13 +12,26 @@ let currentInput = '0';
 let previousInput = '';
 let operator = null;
 let shouldResetDisplay = false;
-const MAX_INPUT_LENGTH = 12;
+const MAX_INPUT_LENGTH = 15;
 
-const display = document.querySelector('.calculator__display');
+const display = document.querySelector('.calculator__result');
+const operationDisplay = document.querySelector('.calculator__operation');
 const buttons = document.querySelector('.calculator__buttons');
 
 function updateDisplay() {
   display.textContent = currentInput || '0';
+  operationDisplay.innerHTML = previousInput + '<br><a style="font-size: 20px">'+ (operator ? getOperatorSymbol(operator) : '')+'</a>';
+}
+
+function getOperatorSymbol(op) {
+  const operatorMap = {
+    add: '+',
+    subtract: '−',
+    multiply: '×',
+    divide: '÷',
+    percent: '%',
+  };
+  return operatorMap[op] || '';
 }
 
 function normalizeInput(input) {
@@ -117,6 +130,7 @@ function handleInput(value, action, op) {
   if (currentInput === 'Error' && value !== undefined && action !== 'clear') {
     return;
   }
+
   if (value !== undefined) {
     if (value === '.' && currentInput.includes('.')) {
       return;
@@ -158,6 +172,7 @@ function handleInput(value, action, op) {
         operator = op;
       }
       shouldResetDisplay = false;
+      updateDisplay();
     }
   }
 

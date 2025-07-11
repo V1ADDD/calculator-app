@@ -35,15 +35,30 @@ body {
 }
 
 .calculator__display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: var(--display-bg);
   border-radius: 5px;
-  font-size: 2rem;
+  font-size: 20px;
   padding: 10px;
   text-align: right;
   margin-bottom: 10px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.calculator__operation {
+  font-size: 6px;
+  color: #333;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.calculator__result {
+  flex-grow: 1;
+  text-align: right;
 }
 
 .calculator__buttons {
@@ -94,7 +109,7 @@ body {
   }
 
   .calculator__display {
-    font-size: 1.5rem;
+    font-size: 0.68rem;
   }
 
   .calculator__button {
