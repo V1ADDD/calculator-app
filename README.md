@@ -7,7 +7,8 @@ https://docs.google.com/document/d/1zpXXeSae-BlcxPKgw3DhxZA92cspVailrPYoaXSYrW8/
 1. Clone the repository: `git clone <repo-url>`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm start`
-4. Build for production: `npm build`
+4. Build for production: `npm run build`
+5. Run code quality checks: `npm test`
 
 ## Folder Structure
 - `src/`: Source files
