@@ -1,10 +1,18 @@
 import '../css/style.css';
-import {add, subtract, multiply, divide, percent, toggleSign} from './operations.js';
+import {
+  add,
+  subtract,
+  multiply,
+  divide,
+  percent,
+  toggleSign,
+} from './operations.js';
 
 let currentInput = '0';
 let previousInput = '';
 let operator = null;
 let shouldResetDisplay = false;
+const MAX_INPUT_LENGTH = 12;
 
 const display = document.querySelector('.calculator__display');
 const buttons = document.querySelector('.calculator__buttons');
@@ -21,8 +29,17 @@ function normalizeInput(input) {
   return input || '0';
 }
 
+function isValidInputLength(input) {
+  return input.length <= MAX_INPUT_LENGTH;
+}
+
 function calculate() {
-  if (!previousInput || !operator || !currentInput || currentInput === 'Error') {
+  if (
+    !previousInput ||
+    !operator ||
+    !currentInput ||
+    currentInput === 'Error'
+  ) {
     return;
   }
   let result;
@@ -57,17 +74,55 @@ buttons.addEventListener('click', (event) => {
   const { target } = event;
   if (!target.matches('button')) return;
 
-  const value = target.dataset.value;
-  const action = target.dataset.action;
-  const op = target.dataset.operator;
+  handleInput(
+    target.dataset.value,
+    target.dataset.action,
+    target.dataset.operator
+  );
+});
 
-  if (currentInput === 'Error' && value !== undefined && action !== 'clear') {
-    return; 
+document.addEventListener('keydown', (event) => {
+  event.preventDefault();
+
+  const keyMap = {
+    0: { value: '0' },
+    1: { value: '1' },
+    2: { value: '2' },
+    3: { value: '3' },
+    4: { value: '4' },
+    5: { value: '5' },
+    6: { value: '6' },
+    7: { value: '7' },
+    8: { value: '8' },
+    9: { value: '9' },
+    '.': { value: '.' },
+    '+': { operator: 'add' },
+    '-': { operator: 'subtract' },
+    '*': { operator: 'multiply' },
+    '/': { operator: 'divide' },
+    '%': { operator: 'percent' },
+    s: { action: 'sign' },
+    Enter: { action: 'equals' },
+    Escape: { action: 'clear' },
+    Backspace: { action: 'backspace' },
+  };
+
+  const input = keyMap[event.key];
+  if (input) {
+    handleInput(input.value, input.action, input.operator);
   }
+});
 
+function handleInput(value, action, op) {
+  if (currentInput === 'Error' && value !== undefined && action !== 'clear') {
+    return;
+  }
   if (value !== undefined) {
     if (value === '.' && currentInput.includes('.')) {
-      return; 
+      return;
+    }
+    if (!isValidInputLength(currentInput + value)) {
+      return;
     }
     if (shouldResetDisplay) {
       currentInput = value;
@@ -75,28 +130,34 @@ buttons.addEventListener('click', (event) => {
     } else {
       currentInput = currentInput === '0' ? value : currentInput + value;
     }
+    currentInput = normalizeInput(currentInput);
     updateDisplay();
   }
 
   if (op) {
     if (op === 'percent') {
-        if (currentInput && currentInput !== 'Error') {
-          currentInput = percent(currentInput);
-          currentInput = normalizeInput(currentInput);
-          updateDisplay();
+      if (currentInput && currentInput !== 'Error') {
+        currentInput = percent(currentInput);
+        if (!isValidInputLength(currentInput)) {
+          currentInput = 'Error';
         }
+        currentInput = normalizeInput(currentInput);
+        updateDisplay();
+      }
     } else if (currentInput && currentInput !== 'Error') {
-        if (previousInput && operator && !shouldResetDisplay) {
-          calculate();
-          previousInput = currentInput;
-          currentInput = '';
-          operator = op;
-        } else {
+      if (previousInput && operator && !shouldResetDisplay) {
+        calculate();
+        if (currentInput !== 'Error') {
           previousInput = currentInput;
           currentInput = '';
           operator = op;
         }
-        shouldResetDisplay = false;
+      } else {
+        previousInput = currentInput;
+        currentInput = '';
+        operator = op;
+      }
+      shouldResetDisplay = false;
     }
   }
 
@@ -116,12 +177,25 @@ buttons.addEventListener('click', (event) => {
         }
         break;
       case 'equals':
-        if (previousInput && operator && currentInput && currentInput !== 'Error') {
+        if (
+          previousInput &&
+          operator &&
+          currentInput &&
+          currentInput !== 'Error'
+        ) {
           calculate();
+        }
+        break;
+      case 'backspace':
+        if (currentInput !== 'Error') {
+          currentInput =
+            currentInput.length > 1 ? currentInput.slice(0, -1) : '0';
+          currentInput = normalizeInput(currentInput);
+          updateDisplay();
         }
         break;
     }
   }
-});
+}
 
 updateDisplay();
