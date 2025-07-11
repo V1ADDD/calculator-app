@@ -6,11 +6,28 @@
   --button-hover-bg: #e0e0e0;
   --operator-bg: #ff9500;
   --operator-hover-bg: #e08a00;
+  --button-border: #ccc;
   --control-bg: #d4d4d2;
   --control-hover-bg: #c0c0c0;
   --text-color: #333333;
+  --calc-border: 0 4px 8px rgba(0, 0, 0, 0.1);
   --font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.dark {
+  --primary-bg: #585858;
+  --calculator-bg: #434343;
+  --display-bg: #444;
+  --button-bg: #555;
+  --button-hover-bg: #777;
+  --operator-bg: #ff9500;
+  --operator-hover-bg: #e08a00;
+  --button-border: #666;
+  --control-bg: #666;
+  --control-hover-bg: #777;
+  --text-color: #ffffff;
+  --calc-border: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -27,11 +44,26 @@ body {
 .calculator {
   background-color: var(--calculator-bg);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--calc-border);
   width: 100%;
   max-width: 320px;
   padding: 20px;
   box-sizing: border-box;
+}
+
+.calculator__theme-toggle {
+  display: block;
+  margin: 0 auto 10px;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid var(--button-border);
+  border-radius: 50%;
+  background-color: var(--button-bg);
+  cursor: pointer;
+}
+
+.calculator__theme-toggle:hover {
+  background-color: var(--button-hover-bg);
 }
 
 .calculator__display {
@@ -47,11 +79,12 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: var(--text-color);
 }
 
 .calculator__operation {
   font-size: 6px;
-  color: #333;
+  color: var(--text-color);
   flex-shrink: 0;
   margin-right: 10px;
 }
@@ -69,12 +102,13 @@ body {
 
 .calculator__button {
   background-color: var(--button-bg);
-  border: none;
+  border: 1px solid var(--button-border);
   border-radius: 5px;
   padding: 15px;
   font-size: 1.5rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  color: var(--text-color);
 }
 
 .calculator__button:hover {

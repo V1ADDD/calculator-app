@@ -17,6 +17,7 @@ const MAX_INPUT_LENGTH = 15;
 const display = document.querySelector('.calculator__result');
 const operationDisplay = document.querySelector('.calculator__operation');
 const buttons = document.querySelector('.calculator__buttons');
+const themeToggle = document.querySelector('.calculator__theme-toggle');
 
 function updateDisplay() {
   display.textContent = currentInput || '0';
@@ -36,6 +37,12 @@ function getOperatorSymbol(op) {
     percent: '%',
   };
   return operatorMap[op] || '';
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.classList.toggle('dark');
+  themeToggle.textContent = isDark ? '🌞' : '🌙';
 }
 
 function normalizeInput(input) {
@@ -97,6 +104,8 @@ buttons.addEventListener('click', (event) => {
     target.dataset.operator
   );
 });
+
+themeToggle.addEventListener('click', toggleTheme);
 
 document.addEventListener('keydown', (event) => {
   event.preventDefault();
