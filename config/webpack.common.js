@@ -1,14 +1,16 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default {
   entry: './src/js/index.js',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'bundle.js',
+    filename: 'script.js',
     clean: true,
   },
-  mode: 'development',
   module: {
     rules: [
       {
@@ -21,10 +23,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/html/index.html',
       filename: 'index.html',
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+      },
     }),
   ],
-  devServer: {
-    static: path.resolve(__dirname, '../dist'),
-    port: 8080,
-  },
 };
